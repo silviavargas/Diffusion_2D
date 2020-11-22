@@ -5,9 +5,9 @@ author: Silvia Vargas
 """
 import numpy as np
 
-def diffuse(I, nu, dx, dy, L, dt, F, T): 
+def diffuse(I, nu, L, dt, F, T): 
     import time;  t0 = time.clock()  # For measuring the CPU time
-
+    dx,dy= L* 0.01
     Nt = int(round(T/float(dt)))
     t = np.linspace(0, Nt*dt, Nt+1)   # Mesh points in time
     Nx = int(round(L/dx))
@@ -28,7 +28,7 @@ def diffuse(I, nu, dx, dy, L, dt, F, T):
     for i in range(0,Nx+1):
         for j in range (0,Ny+1):
          u_n[i,j] = I(x[i],y[j])
-         
+ 
 #Run through Nt timesteps    
     for n in range(0, Nt):       
       u[1:-1, 1:-1] = u_n[1:-1, 1:-1] + nu * dt * (
@@ -39,8 +39,7 @@ def diffuse(I, nu, dx, dy, L, dt, F, T):
     u_n = u.copy()
     
     t1 = time.clock()
- 
-    return t1-t0,u_n,u 
+    return u #t1-t0 #u_n? 
 
 
 
