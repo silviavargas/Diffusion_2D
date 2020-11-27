@@ -4,44 +4,13 @@ author: Silvia Vargas
 
 """
 import scipy as sp
-"""
-def diffuse(I, nu, L, F, T): #tolto dt come parametro
-    import time;  t0 = time.clock()  # For measuring the CPU time
-    dx,dy= L* 0.01
-    dx2, dy2 = dx*dx, dy*dy
-    dt = F * (dx2 * dy2) / (nu * (dx2 + dy2))
-    Nt = int(round(T/float(dt)))
-    t = np.linspace(0, Nt*dt, Nt+1)   # Mesh points in time
-    Nx,Ny = 100
-    x,y = np.linspace(0, L, 101)       # Mesh points in space         
-    
-    # Make sure dx and dt are compatible with x and t
-    dx = x[1] - x[0]
-    dy = y[1] - y[0]
-    dt = t[1] - t[0]
-    
-    u   = np.zeros((Nx+1, Ny+1, Nt+1))      # solution array     
-     
-# Set initial condition
-    for i in range(0,Nx+1):
-     for j in range (0,Ny+1):
-         u[i,j,0] = I[x[i],y[j]]#modificato da funz a array
- 
-#Run through Nt timesteps    
-    for n in range(1, Nt):       
-      u[1:-1, 1:-1, n] = u[1:-1, 1:-1, n-1] + nu * dt * (
-          (u[2:, 1:-1, n-1] - 2*u[1:-1, 1:-1, n-1] + u[:-2, 1:-1,n-1])/dx2
-          + (u[1:-1, 2: ,n-1] - 2*u[1:-1, 1:-1, n-1] + u[1:-1, :-2, n-1])/dy2 )
-      
-    
-    t1 = time.clock()
-    return u, t1-t0 #u_n? 
-"""
+import matplotlib.pyplot as plt
+
 class Diffusion(object):
     """
     Class which implements a numerical solution of the 2d diffusion equation
     """
-    def __init__(self, dx, dy, nu, kind, nt, L):
+    def __init__(self, dx, dy, nu, kind, nt, L):#how does the class works, the configuration is nedeed? 
                  self.L = L   
                  self.dx = dx # Interval size in x-direction.
                  self.dy = dy # Interval size in y-direction.
@@ -56,22 +25,30 @@ class Diffusion(object):
                  self.dt = self.dx2*self.dy2/( 2*nu*(self.dx2+self.dy2) )
                 # unknown u at new time level t and u at the previous 
                 # time level t-dt
-                 self.u,self.ui = self.get_initial_conditions(kind)
+                 self.ui = self.get_initial_conditions(kind)
                  
-    def get_initial_conditions(self, kind):
+    def get_initial_conditions(self, kind):#how to improve the implementation of IC/vectorization
+        """Get the possible initial condition to solve the diffusion function, the options are: 
+            "circle"
+            "two_circles"
+            "square"
+            "donut"
+            "concentric_circles"
+            "rod"
+            "semicircle"
+        """
         # Start u and ui off as zero matrices:
         ui = sp.zeros([self.nx,self.ny])
-        u = sp.zeros([self.nx,self.ny])
         # Now, set the initial conditions (ui).
         for i in range(self.nx):
             for j in range(self.ny):
                 if kind == "circle":
                     p = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.5)**2
-                    if ( p  <= self.L*0.03 ):
+                    if ( p  <= self.L*0.1 ):
                         ui[i,j] = 1
                 if kind == "two_circles":
-                    p = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.5)**2
-                    q = (i*self.dx - self.L*0.2)**2 + (j*self.dy - self.L*0.2)**2
+                    p = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.25)**2
+                    q = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.75)**2
                     if ( p  <= self.L*0.03 or q <= self.L*0.03 ):
                         ui[i,j] = 1 
                 elif kind == "square":
@@ -79,27 +56,44 @@ class Diffusion(object):
                         ui[i,j] = 1
                 elif kind == "donut":
                     p = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.5)**2
-                    if ( p  <= .03*self.L and p >= 0.020*self.L ):
+                    if ( p  <= 0.5*self.L and p >= 0.3*self.L ):
                         ui[i,j] = 1
                 elif kind == "concentric_circles":
                     p = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.5)**2
-                    if ( p  <= .03*self.L and p >= 0.020*self.L ):
+                    if ( p  <= .3*self.L and p >= 0.2*self.L ):
                         ui[i,j] = 1
-                    elif ( p  <= .108*self.L and p >= 0.09*self.L ):
+                    elif ( p  <= .9*self.L and p >= 0.8*self.L ):
                         ui[i,j] = 1
                 elif kind == "rod" :
-                    if ( i>int(0.4*self.nx) and i<int(0.45*self.nx) and j>int(0.4*self.ny) and j<int(0.7*self.ny)):
+                    if ( i>int(0.4*self.nx) and i<int(0.45*self.nx) and j>int(0.1*self.ny) and j<int(0.9*self.ny)):
                         ui[i,j] = 1
-        return u,ui
+                elif kind == "semicircle" :
+                    p = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.5)**2
+                    if ( p  <= self.L*0.2 and j>=int(0.5*self.ny) ):
+                        ui[i,j] = 1      
+        return ui
     
     def evolve_ts(self):
-        self.u[1:-1, 1:-1] = self.ui[1:-1, 1:-1] + self.nu*self.dt*( (self.ui[2:, 1:-1] - 2*self.ui[1:-1, 1:-1] + self.ui[:-2, 1:-1])/self.dx2 + (self.ui[1:-1, 2:] - 2*self.ui[1:-1, 1:-1] + self.ui[1:-1, :-2])/self.dy2 )
-        self.ui = self.u.copy()
+        for i in range(self.nt + 1):#the cicle is nedeed? 
+         self.u[1:-1, 1:-1] = self.ui[1:-1, 1:-1] + self.nu*self.dt*( (self.ui[2:, 1:-1]
+                              - 2*self.ui[1:-1, 1:-1] + self.ui[:-2, 1:-1])/self.dx2 + 
+                              (self.ui[1:-1, 2:] - 2*self.ui[1:-1, 1:-1] + self.ui[1:-1, :-2])/self.dy2 )
+         self.ui = self.u.copy()
+         
+         return self.u, self.ui
         
 
          
-               
-                
+#%%               
+Diff1=Diffusion(0.1, 0.1, 1,"semicircle",100,10)     
+ui=Diff1.get_initial_conditions("semicircle")          
 
+
+plt.figure(figsize=(15, 7))
+
+
+# plt.grid(True, which='major', linestyle='--', color='black', alpha=0.8)
+plt.imshow(ui)
+plt.show()
 
 
