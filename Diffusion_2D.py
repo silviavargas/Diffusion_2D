@@ -5,7 +5,7 @@ Created on Wed Nov ‎11 ‏‎11:23:29 2020
 @author: Silvia Vargas
 """
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 class Diffusion(object):
     """
@@ -35,6 +35,7 @@ class Diffusion(object):
             "concentric_circles"
             "rod"
             "semicircle"
+            "grid"
         """
         # Start u:
         u = np.zeros([self.nx,self.ny,self.nt])
