@@ -5,7 +5,7 @@ Created on Wed Nov ‎11 ‏‎11:23:29 2020
 @author: Silvia Vargas
 """
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 class Diffusion(object):
     """
@@ -38,7 +38,7 @@ class Diffusion(object):
             "grid"
         """
         # Start u:
-        u = np.zeros([self.nx,self.ny,self.nt])
+        u = np.zeros([self.nx,self.ny,self.nt+1])
         # Now, set the initial conditions (ui).
         for i in range(self.nx):
             for j in range(self.ny):
@@ -63,7 +63,7 @@ class Diffusion(object):
                     if ( p  <= .3*self.L and p >= 0.2*self.L ):
                         u[i,j,0] = 1
                     elif ( p  <= .9*self.L and p >= 0.8*self.L ):
-                        u[i,j,0] = 1
+                        u[i,j,] = 1
                 elif kind == "rod" :
                     if ( i>int(round(0.4*self.nx)) and i<int(round(0.45*self.nx)) and j>int(round(0.1*self.ny)) and j<int(round(0.9*self.ny))):
                         u[i,j,0] = 1
@@ -80,29 +80,10 @@ class Diffusion(object):
     
     def evolve_ts(self):
      #   u = np.zeros([self.nx,self.ny,self.nt])
-        for n in range(1, self.nt):       
+        for n in range(1, self.nt+1):       
             self.u[1:-1, 1:-1, n] = self.u[1:-1, 1:-1, n-1] + self.nu * self.dt * (
             (self.u[2:, 1:-1, n-1] - 2*self.u[1:-1, 1:-1, n-1] + self.u[:-2, 1:-1,n-1])/self.dx2
             + (self.u[1:-1, 2: ,n-1] - 2*self.u[1:-1, 1:-1, n-1] + self.u[1:-1, :-2, n-1])/self.dy2 )
             
          
         return self.u #, self.ui
-        
-"""
-#%%               
-Diff1=Diffusion(0.1, 0.1, 1,"grid",1000,10)     
-#ui=Diff1.get_initial_conditions("two_circles")    #da togliere
-Diff1.evolve_ts()
-T=np.zeros([Diff1.nx, Diff1.ny])      
-for i in range (0,Diff1.nx) :
-    for j in range (0,Diff1.ny): 
-        T[i,j]=Diff1.u[i,j,Diff1.nt-1]
-     
-
-plt.figure(figsize=(15, 7))
-
-
-# plt.grid(True, which='major', linestyle='--', color='black', alpha=0.8)
-plt.imshow(T)
-plt.show()
-"""
