@@ -14,7 +14,7 @@ print('matplotlib: '+matplotlib.__version__)
 from Diffusion_2D import Diffusion
 
 #%%               
-Diff1=Diffusion(0.1, 0.1, 1,"donut",100 ,10)
+Diff1=Diffusion(0.1, 0.1, 1,"circle",100,10)
 #%%
 fps = 10 # frame per sec
 Diff1.evolve_ts()
@@ -27,12 +27,15 @@ X, Y = np.meshgrid(x, x)
 def update_plot(frame_number, zarray, plot):
      plot[0].remove()
      plot[0] = ax.plot_surface(X, Y, zarray[:,:,frame_number], cmap="magma")
+     ax.set_title("Time {} [s]".format(round(Diff1.dt*frame_number,2)), fontsize=12)
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 plot = [ax.plot_surface(X, Y, Diff1.u[:,:,0], color='0.75', rstride=1, cstride=1)]
 ax.set_zlim(0,1.1)
+ax.set_xlabel('x')
+ax.set_ylabel('y')
 ani = animation.FuncAnimation(fig, update_plot, Diff1.nt, fargs=(Diff1.u, plot), interval=1000/fps)
 
 fn = 'plot_surface_animation_funcanimation'
