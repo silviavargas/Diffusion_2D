@@ -11,10 +11,10 @@ class Diffusion(object):
     """
     Class which implements a numerical solution of the 2d diffusion equation
     """
-    def __init__(self, dx, dy, nu, kind, nt, L):#how does the class works, the configuration is nedeed? 
+    def __init__(self, dx, dy, nu, kind, nt, L):
                  self.L = L   
                  self.dx = dx # Interval size in x-direction.
-                 self.dy = dy # Interval size in y-direction.
+                 self.dy = dx # Interval size in y-direction.
                  self.nu = nu # Diffusion constant.
                  self.nt = nt  #Number of time-steps to evolve system.
                  self.dx2 = dx**2
@@ -26,7 +26,7 @@ class Diffusion(object):
                  self.dt = self.dx2*self.dy2/( 2*nu*(self.dx2+self.dy2) )
                  self.u = self.get_initial_conditions(kind)
                  
-    def get_initial_conditions(self, kind):#how to improve the implementation of IC/vectorization
+    def get_initial_conditions(self, kind):
         """Get the possible initial condition to solve the diffusion function, the options are: 
             "circle"
             "two_circles"
@@ -63,7 +63,7 @@ class Diffusion(object):
                     if ( p  <= .3*self.L and p >= 0.2*self.L ):
                         u[i,j,0] = 1
                     elif ( p  <= .9*self.L and p >= 0.8*self.L ):
-                        u[i,j,] = 1
+                        u[i,j,0] = 1
                 elif kind == "rod" :
                     if ( i>int(round(0.4*self.nx)) and i<int(round(0.45*self.nx)) and j>int(round(0.1*self.ny)) and j<int(round(0.9*self.ny))):
                         u[i,j,0] = 1
@@ -86,4 +86,4 @@ class Diffusion(object):
             + (self.u[1:-1, 2: ,n-1] - 2*self.u[1:-1, 1:-1, n-1] + self.u[1:-1, :-2, n-1])/self.dy2 )
             
          
-        return self.u #, self.ui
+        return self.u 
