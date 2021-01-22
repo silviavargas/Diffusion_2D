@@ -1,26 +1,24 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Nov ‎11 ‏‎11:23:29 2020
-
 @author: Silvia Vargas
 """
 import numpy as np
-import matplotlib.pyplot as plt
 
 class Diffusion(object):
     """
     Class which implements a numerical solution of the 2d diffusion equation
     """
-    def __init__(self, dx, dy, nu, kind, nt, L):
+    def __init__(self, dx, nu, kind, nt, L):
                  self.L = L   
                  self.dx = dx # Interval size in x-direction.
-                 self.dy = dx # Interval size in y-direction.
+                 self.dy = self.dx # Interval size in y-direction.
                  self.nu = nu # Diffusion constant.
                  self.nt = nt  #Number of time-steps to evolve system.
                  self.dx2 = dx**2
-                 self.dy2 = dy**2
+                 self.dy2 = self.dy**2
                  self.nx = int(round(L/dx))
-                 self.ny = int(round(L/dy))
+                 self.ny = int(round(L/self.dy))
                 # For stability, this is the largest interval possible
                 # for the size of the time-step:
                  self.dt = self.dx2*self.dy2/( 2*nu*(self.dx2+self.dy2) )
@@ -47,8 +45,8 @@ class Diffusion(object):
                     if ( p  <= self.L*0.1 ):
                         u[i,j,0] = 1
                 if kind == "two_circles":
-                    p = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.25)**2
-                    q = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.75)**2
+                    p = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.4)**2
+                    q = (i*self.dx - self.L*0.5)**2 + (j*self.dy - self.L*0.6)**2
                     if ( p  <= self.L*0.03 or q <= self.L*0.03 ):
                         u[i,j,0] = 1 
                 elif kind == "square":
