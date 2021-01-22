@@ -1,0 +1,10 @@
+[parameters]
+dx = 0.1
+nu = 0.01
+kind = square
+nt = 100
+L = 10
+
+
+[gif names]
+name = Diffusion_square

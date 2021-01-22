@@ -1,0 +1,10 @@
+[parameters]
+dx = 0.2
+nu = 4
+kind = rod
+nt = 100
+L = 10
+
+
+[gif names]
+name = Diffusion_rod

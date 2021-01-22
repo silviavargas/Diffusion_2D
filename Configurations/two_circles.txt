@@ -1,0 +1,10 @@
+[parameters]
+dx = 0.2
+nu = 4
+kind = two_circles
+nt = 100
+L = 10
+
+
+[gif names]
+name = Diffusion_two_circles

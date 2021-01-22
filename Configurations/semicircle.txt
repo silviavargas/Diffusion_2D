@@ -1,0 +1,10 @@
+[parameters]
+dx = 0.1
+nu = 4
+kind = semicircle
+nt = 200
+L = 10
+
+
+[gif names]
+name = Diffusion_semicircle
