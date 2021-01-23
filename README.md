@@ -1,6 +1,6 @@
 # The two-dimensional diffusion equation
 
 The two-dimensional diffusion equation is:
-https://latex.codecogs.com/gif.latex?%5Cfrac%7B%5Cpartial%20u%7D%7B%5Cpartial%20t%7D%20%3D%20%5Cnu%5Cfrac%7B%5Cpartial%5E2u%7D%7B%5Cpartial%20x%5E2%7D&plus;%5Cnu%5Cfrac%7B%5Cpartial%5E2u%7D%7B%5Cpartial%20x%5E2%7D
+<a href="https://www.codecogs.com/eqnedit.php?latex=\frac{\partial&space;u}{\partial&space;t}&space;=&space;\nu\frac{\partial^2u}{\partial&space;x^2}&plus;\nu\frac{\partial^2u}{\partial&space;x^2}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac{\partial&space;u}{\partial&space;t}&space;=&space;\nu\frac{\partial^2u}{\partial&space;x^2}&plus;\nu\frac{\partial^2u}{\partial&space;x^2}" title="\frac{\partial u}{\partial t} = \nu\frac{\partial^2u}{\partial x^2}+\nu\frac{\partial^2u}{\partial x^2}" /></a>
 
 
