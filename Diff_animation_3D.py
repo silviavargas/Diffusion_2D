@@ -46,6 +46,15 @@ X, Y = np.meshgrid(x,y)
 
     
 def update_plot(frame_number, zarray, plot):
+     """
+     This method update the plot each timestep to create a GIF
+     
+     parameters:
+         frame_number: number updated each frame
+         zarray: array containing the data to plot
+         plot: array to create the GIF
+         
+     """
      plot[0].remove()
      plot[0] = ax.plot_surface(X, Y, zarray[:,:,frame_number], cmap="plasma")
      ax.set_title("Time {} [ms]".format(round(Diff1.dt*frame_number*1000)), fontsize=12)
