@@ -6,26 +6,36 @@ Created on Wed Nov ‎11 ‏‎11:23:29 2020
 import numpy as np
 
 class Diffusion(object):
-    """
+    '''
     Class which implements a numerical solution of the 2d diffusion equation
-    """
+    
+    Parameters:
+        dx: Interval size to create the space mesh grid 
+        nu: Diffusivity constant
+        kind:  Initial conditions
+        nt: Number of timesteps
+        L: Length of the space mesh grid
+
+    '''
+
     def __init__(self, dx, nu, kind, nt, L):
-                 self.L = L   
-                 self.dx = dx # Interval size in x-direction.
-                 self.dy = self.dx # Interval size in y-direction.
-                 self.nu = nu # Diffusion constant.
-                 self.nt = nt  #Number of time-steps to evolve system.
+                 self.L = L   #Length of the space mesh grid 
+                 self.dx = dx # Interval size in x-direction for the mesh grid
+                 self.dy = self.dx # Interval size in y-direction for the mesh grid
+                 self.nu = nu 
+                 self.nt = nt  #Number of timesteps to evolve system.
                  self.dx2 = dx**2
                  self.dy2 = self.dy**2
                  self.nx = int(round(L/dx))
                  self.ny = int(round(L/self.dy))
                 # For stability, this is the largest interval possible
-                # for the size of the time-step:
+                # for the size of the timestep:
                  self.dt = self.dx2*self.dy2/( 2*nu*(self.dx2+self.dy2) )
                  self.u = self.get_initial_conditions(kind)
                  
     def get_initial_conditions(self, kind):
-        """Get the possible initial condition to solve the diffusion function, the options are: 
+        """ 
+            Method that get the possible initial condition to solve the diffusion function, the options are: 
             "circle"
             "two_circles"
             "square"
@@ -34,10 +44,16 @@ class Diffusion(object):
             "rod"
             "semicircle"
             "grid"
+            
+            parameter:
+                kind: kind of initial conditions
+                
+            returns: 
+                u: 2D array corresponding to the solution for the first timestep
         """
         # Start u:
         u = np.zeros([self.nx,self.ny,self.nt+1])
-        # Now, set the initial conditions (ui).
+        # Set the initial conditions (ui)
         for i in range(self.nx):
             for j in range(self.ny):
                 if kind == "circle":
@@ -77,7 +93,13 @@ class Diffusion(object):
         return u
     
     def evolve_ts(self):
-     #   u = np.zeros([self.nx,self.ny,self.nt])
+        """
+        Method that evolve the system through every timestep
+        
+        returns:
+            A 3D array that contains the 2D diffusion equation solution for each timestep.
+
+        """
         for n in range(1, self.nt+1):       
             self.u[1:-1, 1:-1, n] = self.u[1:-1, 1:-1, n-1] + self.nu * self.dt * (
             (self.u[2:, 1:-1, n-1] - 2*self.u[1:-1, 1:-1, n-1] + self.u[:-2, 1:-1,n-1])/self.dx2
