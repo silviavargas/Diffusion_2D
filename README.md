@@ -54,7 +54,7 @@ It can be shown that the maximum time step, <a href="https://www.codecogs.com/eq
 ## Structure of the project
 
 
-The project is devided in two main blocks:
+The project is divided in two main blocks:
 
 - The module [Diffusion_2D](https://github.com/silviavargas/Diffusion_2D/blob/master/Diffusion_2D.py) contains the **Class Diffusion** that and implements a numerical solution of the 2D diffusion equation, the parameters of the class are: the size interval to build the square mesh grid for the spacial coordinates *dx*, the diffusivity constant <a href="https://www.codecogs.com/eqnedit.php?latex=\nu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\nu" title="\nu" /></a>, the initial conditions *kind*, the number of timestep *nt* and the lenght of the mesh grid *L*. In this Class is also implemented the method **get_initial_conditions** that creates different initial conditions created with *for cycles* and returns the 2D array corresponding to the solution for the first timestep. Lastly is implemented the method **evolve_ts**, the algorithm evolve the system every timestep and returns a 3D array that contains the 2D diffusion equation solution for each timestep.
 
