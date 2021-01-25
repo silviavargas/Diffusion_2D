@@ -27,7 +27,8 @@ Diff1=Diffusion(dx,nu,kind,nt,L)
 Initial_conditions = Diff1.u[:,:,0]
 Diff1.evolve_ts()
 Final_timestep = Diff1.u[:,:,Diff1.nt]
-
+print (Diff1.u.ndim)
+print (Initial_conditions.ndim)
 def test_Initial_conditions_are_square(Initial_conditions):
     """ 
     Check that the Initial conditions are a square matrix, and therefore dx and dy are equal
@@ -45,9 +46,7 @@ def test_Initial_conditions_contain_only_zeros_and_ones(Initial_conditions):
      # return 1
      
     assert (sum(set(sum(Initial_conditions,[])))  <= 1)
-    
-def test_Initial_conditions_are_the_first_to_appear(Initial_conditions):
-    """Check that the initial condition has index 0"""
+     
     
 def test_amount_of_matter_is_the_same(Initial_conditions, Final_timestep):
     """
