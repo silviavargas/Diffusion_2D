@@ -6,7 +6,7 @@ Created on Wed Nov ‎11 ‏‎11:23:29 2020
 import numpy as np
 
 class Diffusion(object):
-    '''
+    """
     Class which implements a numerical solution of the 2d diffusion equation
     
     Parameters:
@@ -16,7 +16,7 @@ class Diffusion(object):
         nt: Number of timesteps
         L: Length of the space mesh grid
 
-    '''
+    """
 
     def __init__(self, dx, nu, kind, nt, L):
                  self.L = L   #Length of the space mesh grid 
