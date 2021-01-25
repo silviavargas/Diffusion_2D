@@ -61,11 +61,11 @@ The project is devided in two main blocks:
 - The module [Diff_animation_3D](https://github.com/silviavargas/Diffusion_2D/blob/master/Diff_animation_3D.py) has been created to realize an animation using the matplotlib library, that show the process of diffusion over time, in this module there is the function **update_plot**, that takes the parameters *frame_number*, *zarray* and *plot* to create the 3D animation that is saved in GIF format. 
 
 These are the steps in order to start the program and to plot the results:
-1) First, the user has to choose between the different configurations for the diffusion, conteined in the folder [Configurations](https://github.com/silviavargas/Diffusion_2D/tree/master/Configurations) and eventually write a new one, using the same syntax of the other files in the folder; if the user wants to do so,
-he has to specify the diffusion parameters (*dx*,<a href="https://www.codecogs.com/eqnedit.php?latex=\nu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\nu" title="\nu" /></a>, *kind*,*nt* and *L*) and also the name under which the GIF is saved. 
+1) First, the user has to choose between the different configurations for the diffusion, contained in the folder [Configurations](https://github.com/silviavargas/Diffusion_2D/tree/master/Configurations) and eventually write a new one, using the same syntax of the other files in the folder; if the user wants to do so,
+he has to specify the diffusion parameters (*dx*, <a href="https://www.codecogs.com/eqnedit.php?latex=\nu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\nu" title="\nu" /></a>, *kind*, *nt* and *L*) and also the name under which the GIF is saved. 
 2) Then, to start the Diffusion the user has to launch the file [Diff_animation_3D](https://github.com/silviavargas/Diffusion_2D/blob/master/Diff_animation_3D.py) which imports its parameters from one of the file in [Configurations](https://github.com/silviavargas/Diffusion_2D/tree/master/Configurations) using ConfigParser library; there could be different types of configurations for the diffusion, depending on the size of the space interval, diffusivity constant, Initial conditiions, timestep or the name of the resulting animation, so the user has to specify the configuration he wants when launching the simulation file from the command line with the syntax ***"python Diff_animation_3D.py Configurations\name_of_the_configuration"*** (for example, circle.txt).
 
-##Examples
+## Examples
 
 To provide some examples, this is how the simulation of a given configuration looks like, for the configuration circle.txt, grid.txt and rod.txt:
 ![Diffusion_circle](https://github.com/silviavargas/Diffusion_2D/blob/master/GIFs/Diffusion_circle.gif)
